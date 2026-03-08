@@ -9,7 +9,6 @@ import bcrypt from "bcrypt";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { Resend } from "resend";
-import { checkBotId } from "botid/server";
 
 const PostgresStore = connectPgSimple(session);
 
@@ -301,16 +300,6 @@ async function startServer() {
 
       if (!email || !password || !companyName || !phone) {
         return res.status(400).json({ error: "Missing required fields" });
-      }
-
-      const verification = await checkBotId({
-        advancedOptions: {
-          checkLevel: 'deepAnalysis',
-          headers: req.headers,
-        },
-      });
-      if (verification.isBot) {
-        return res.status(403).json({ error: "Bot detected" });
       }
 
       if (password.length < 8) {
