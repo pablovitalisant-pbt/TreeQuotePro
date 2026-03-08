@@ -1,0 +1,5 @@
+{
+  "name": "TreeQuote Pro",
+  "description": "TreeQuote Pro - Instant Tree Removal Estimator powered by PBT Digital Services. A professional lead magnet for tree removal companies.",
+  "requestFramePermissions": ["geolocation"]
+}
