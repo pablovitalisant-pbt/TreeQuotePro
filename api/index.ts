@@ -184,22 +184,14 @@ async function startServer() {
       ALTER COLUMN phone TYPE TEXT
     `);
 
-    // 1. Borrado absoluto
-    await pool.query('DROP TABLE IF EXISTS "session" CASCADE');
-    console.log("Tabla session antigua eliminada.");
-
-    // 2. Creación atómica (La PK se define en la misma línea que la columna)
     await pool.query(`
-      CREATE TABLE "session" (
+      CREATE TABLE IF NOT EXISTS "session" (
         "sid" varchar NOT NULL PRIMARY KEY,
         "sess" json NOT NULL,
         "expire" timestamp(6) NOT NULL
-      );
+      )
     `);
-    
-    // 3. Índice adicional
     await pool.query('CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire")');
-    console.log("Nueva tabla session creada con PRIMARY KEY verificada.");
 
     console.log("Database initialization complete.");
     dbReady = true;
