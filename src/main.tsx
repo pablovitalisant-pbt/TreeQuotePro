@@ -7,8 +7,11 @@ import { initBotId } from 'botid/client/core';
 
 initBotId({
   protect: [
-    { path: '/api/auth/register', method: 'POST' },
-    { path: '/api/estimate', method: 'POST' },
+    {
+      path: '/api/auth/register',
+      method: 'POST',
+      advancedOptions: { checkLevel: 'deepAnalysis' },
+    },
   ],
 });
 

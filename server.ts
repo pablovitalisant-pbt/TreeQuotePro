@@ -303,7 +303,12 @@ async function startServer() {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
-      const verification = await checkBotId();
+      const verification = await checkBotId({
+        advancedOptions: {
+          checkLevel: 'deepAnalysis',
+          headers: req.headers,
+        },
+      });
       if (verification.isBot) {
         return res.status(403).json({ error: "Bot detected" });
       }

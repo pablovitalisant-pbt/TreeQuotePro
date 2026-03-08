@@ -1,6 +1,10 @@
 {
   "version": 2,
   "rewrites": [
+    {
+      "source": "/bot-protection/(.*)",
+      "destination": "https://api.vercel.com/bot-protection/v1/:1"
+    },
     { "source": "/api/(.*)", "destination": "/api/index.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
