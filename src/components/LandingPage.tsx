@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -34,13 +33,11 @@ export default function LandingPage({ onNavigate }: Props) {
   }, []);
 
   const [email, setEmail] = useState('');
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,17 +45,10 @@ export default function LandingPage({ onNavigate }: Props) {
     setLoading(true);
 
     try {
-      // TEMP: CAPTCHA validation disabled for localhost testing
-      // if (!captchaToken) {
-      //   setError('Please complete the CAPTCHA');
-      //   setLoading(false);
-      //   return;
-      // }
-
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, companyName, phone, captchaToken }),
+        body: JSON.stringify({ email, password, companyName, phone }),
         credentials: 'include',
       });
 
@@ -236,13 +226,6 @@ export default function LandingPage({ onNavigate }: Props) {
                     </div>
                     <p className="text-[10px] text-slate-400 ml-1">Minimum 8 characters</p>
                   </div>
-
-                  {siteKey && (
-                    <ReCAPTCHA
-                      sitekey={siteKey}
-                      onChange={(token) => setCaptchaToken(token)}
-                    />
-                  )}
 
                   <button 
                     className="w-full bg-secondary hover:bg-orange-600 text-white font-black py-4 rounded-xl shadow-xl shadow-secondary/20 transition-all transform hover:-translate-y-1 active:scale-[0.98] mt-4 flex items-center justify-center gap-2 text-lg disabled:opacity-50" 

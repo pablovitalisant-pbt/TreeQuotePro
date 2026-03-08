@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 interface Props {
   onSuccess?: (slug: string) => void;
@@ -14,10 +13,8 @@ export default function SignupForm({ onSuccess }: Props) {
     email: '',
     password: '',
   });
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -29,13 +26,6 @@ export default function SignupForm({ onSuccess }: Props) {
     setError(null);
 
     try {
-      // TEMP: CAPTCHA validation disabled for localhost testing
-      // if (!captchaToken) {
-      //   setError('Please complete the CAPTCHA');
-      //   setLoading(false);
-      //   return;
-      // }
-
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -45,7 +35,6 @@ export default function SignupForm({ onSuccess }: Props) {
           password: formData.password,
           companyName: formData.companyName,
           phone: formData.phone,
-          captchaToken,
         }),
       });
 
@@ -73,16 +62,10 @@ export default function SignupForm({ onSuccess }: Props) {
         console.error('SignupForm: GHL Webhook error:', ghlErr);
       }
 
-      console.log('SignupForm: All steps complete, calling onSuccess with slug:', createdSlug);
       if (onSuccess) {
         onSuccess(createdSlug);
       }
     } catch (err: any) {
-      console.error('SignupForm: NETWORK OR CRITICAL ERROR:', err);
-      // Detailed error logging
-      if (err instanceof TypeError && err.message === 'Failed to fetch') {
-        console.error('SignupForm: This is likely a CORS or Network issue. Check if the proxy is working.');
-      }
       setError(err.message || 'An unexpected error occurred');
       setLoading(false);
     }
@@ -190,13 +173,6 @@ export default function SignupForm({ onSuccess }: Props) {
           />
         </div>
       </div>
-
-      {siteKey && (
-        <ReCAPTCHA
-          sitekey={siteKey}
-          onChange={(token) => setCaptchaToken(token)}
-        />
-      )}
 
       <button
         disabled={loading}

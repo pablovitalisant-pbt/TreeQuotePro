@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { Resend } from "resend";
+import { checkBotId } from "botid/server";
 
 const PostgresStore = connectPgSimple(session);
 
@@ -287,11 +288,10 @@ async function startServer() {
     const client = await pool.connect();
     let committed = false;
     try {
-      const { email: rawEmail, password: rawPassword, companyName: rawCompanyName, phone: rawPhone, captchaToken } = req.body;
+      const { email: rawEmail, password: rawPassword, companyName: rawCompanyName, phone: rawPhone } = req.body;
 
-      // VALIDACIÓN TEMPORAL (Sin reCAPTCHA para localhost)
       if (!rawEmail || !rawPassword || !rawCompanyName || !rawPhone) {
-        return res.status(400).json({ error: "Missing required fields (email, password, company, or phone)" });
+        return res.status(400).json({ error: "Missing required fields" });
       }
 
       const email = rawEmail.trim();
@@ -300,28 +300,13 @@ async function startServer() {
       const password = typeof rawPassword === 'string' ? rawPassword.trim() : rawPassword;
 
       if (!email || !password || !companyName || !phone) {
-        return res.status(400).json({ error: "Missing required fields (email, password, company, or phone)" });
+        return res.status(400).json({ error: "Missing required fields" });
       }
 
-      // TEMP: CAPTCHA validation disabled for localhost testing
-      // if (!captchaToken) {
-      //   return res.status(400).json({ error: "Missing required fields" });
-      // }
-      // if (!process.env.RECAPTCHA_SECRET_KEY) {
-      //   return res.status(500).json({ error: "CAPTCHA not configured" });
-      // }
-      // const captchaRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      //   body: new URLSearchParams({
-      //     secret: process.env.RECAPTCHA_SECRET_KEY,
-      //     response: captchaToken
-      //   }).toString(),
-      // });
-      // const captchaData = await captchaRes.json();
-      // if (!captchaRes.ok || !captchaData?.success) {
-      //   return res.status(400).json({ error: "Invalid CAPTCHA" });
-      // }
+      const verification = await checkBotId();
+      if (verification.isBot) {
+        return res.status(403).json({ error: "Bot detected" });
+      }
 
       if (password.length < 8) {
         return res.status(400).json({ error: "Password must be at least 8 characters" });
