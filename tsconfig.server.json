@@ -10,5 +10,6 @@
     "strict": false,
     "skipLibCheck": true
   },
-  "include": ["api/index.ts"]
+  "files": ["api/index.ts"],
+  "exclude": []
 }
