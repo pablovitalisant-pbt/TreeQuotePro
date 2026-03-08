@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
 import { Pool } from "pg";
@@ -30,6 +29,7 @@ async function startServer() {
   console.log("Starting ArborQuote Server...");
   const isProduction = process.env.NODE_ENV === 'production';
   const app = express();
+  app.set('trust proxy', 1);
   const PORT = 3000;
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -98,6 +98,7 @@ async function startServer() {
         height_rate DOUBLE PRECISION DEFAULT 10.0,
         diameter_rate DOUBLE PRECISION DEFAULT 5.0,
         hazard_multiplier DOUBLE PRECISION DEFAULT 1.5,
+        user_id INTEGER,
         webhook_url TEXT,
         logo_url TEXT,
         primary_color TEXT DEFAULT '#059669',
@@ -122,6 +123,9 @@ async function startServer() {
         await pool.query(`ALTER TABLE companies ADD COLUMN ${col.name} ${col.type}`);
       } catch (e) {}
     }
+    try {
+      await pool.query(`ALTER TABLE companies ADD COLUMN IF NOT EXISTS user_id INTEGER`);
+    } catch (e) {}
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS leads (
@@ -703,33 +707,7 @@ async function startServer() {
     }
   });
 
-  // 6. Vite middleware — always last
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-    
-    app.use("*", async (req, res, next) => {
-      const url = req.originalUrl;
-      if (url.startsWith('/api')) return next();
-      
-      try {
-        let template = fs.readFileSync(path.resolve(process.cwd(), "index.html"), "utf-8");
-        template = await vite.transformIndexHtml(url, template);
-        res.status(200).set({ "Content-Type": "text/html" }).end(template);
-      } catch (e) {
-        vite.ssrFixStacktrace(e as Error);
-        next(e);
-      }
-    });
-  } else {
-    app.use(express.static(path.join(process.cwd(), "dist")));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(process.cwd(), "dist", "index.html"));
-    });
-  }
+  // Static files are served by Vercel in production.
 
   return app;
 }
