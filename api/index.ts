@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import { Pool } from "pg";
 import multer from "multer";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { Resend } from "resend";
