@@ -382,7 +382,7 @@ export default function AdminDashboard({ companySlug }: Props) {
                       <div className="text-emerald-400 font-black text-xl">Exclusive Partner Access</div>
                     </div>
                     <button 
-                      onClick={() => window.open('https://calendly.com/your-link', '_blank')}
+                      onClick={() => window.open('https://pbtleads.website/home', '_blank')}
                       className="bg-white text-stone-900 px-8 py-4 rounded-2xl font-black text-base hover:bg-emerald-400 hover:text-white transition-all flex items-center gap-3 shadow-2xl active:scale-95 group-hover:translate-y-[-2px]"
                     >
                       See How It Works <ArrowRight className="w-5 h-5" />
@@ -613,7 +613,7 @@ export default function AdminDashboard({ companySlug }: Props) {
                         <div className="text-5xl font-black text-white">$0 Setup Fee</div>
                       </div>
                       <button 
-                        onClick={() => window.open('https://calendly.com/your-link', '_blank')}
+                        onClick={() => window.open('https://pbtleads.website/home', '_blank')}
                         className="bg-white text-emerald-600 px-10 py-5 rounded-2xl font-black text-xl hover:bg-emerald-50 transition-all shadow-2xl shadow-emerald-900/40 flex items-center gap-3 group-hover:scale-105"
                       >
                         See How It Works <ArrowRight className="w-7 h-7" />
@@ -718,7 +718,7 @@ export default function AdminDashboard({ companySlug }: Props) {
                                 </div>
                               </div>
                               <button 
-                                onClick={() => window.open('https://calendly.com/your-link', '_blank')}
+                                onClick={() => window.open('https://pbtleads.website/home', '_blank')}
                                 className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 flex items-center gap-2 whitespace-nowrap group"
                               >
                                 See How It Works <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
