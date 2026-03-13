@@ -64,7 +64,11 @@ async function startServer() {
   // Ensure uploads directory exists
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
   if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
+    try {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    } catch (e) {
+      console.warn("Could not create uploads dir (read-only fs, expected in production):", e);
+    }
   }
 
   // 1. Body parsing and static files — always first, no dependencies
