@@ -338,22 +338,22 @@ export default function AdminDashboard({ companySlug }: Props) {
                       </div>
                     </div>
                     
-                    <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-4">How Many Tree Jobs Are You Losing From Missed Calls?</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-4">You Just Got a Lead. How Many Others Called While You Were Up in That Tree?</h2>
                     
                     <div className="space-y-4 text-stone-400 text-sm max-w-2xl">
-                      <p>When you're climbing, running equipment, or driving to the next job… <span className="text-white font-bold italic">the phone rings.</span></p>
-                      <p>And if you don't answer… that homeowner usually hires the next tree company who does.</p>
-                      <p className="text-emerald-400 font-medium">The Tree Job Capture System makes sure missed calls don't turn into lost jobs.</p>
+                      <p>Every time your phone rings while you're on a job site… <span className="text-white font-bold italic">someone else answers theirs.</span></p>
+                      <p>Tree leads go cold in under 5 minutes. The company that responds first wins the job — almost every time.</p>
+                      <p className="text-emerald-400 font-medium">The Tree Job Capture System responds to every missed call automatically — so you stay in the game even when you're 60 feet up.</p>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                         <div className="flex items-center gap-2 text-white/90 text-xs font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Capture opportunities even when you're on a job site
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Respond to every missed call in under 60 seconds — automatically
                         </div>
                         <div className="flex items-center gap-2 text-white/90 text-xs font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Be the first company to respond — automatically
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Be the first tree company to follow up, every single time
                         </div>
                         <div className="flex items-center gap-2 text-white/90 text-xs font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Turn missed calls into booked estimates
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Convert missed calls into booked estimates without lifting a finger
                         </div>
                       </div>
                     </div>
@@ -568,25 +568,25 @@ export default function AdminDashboard({ companySlug }: Props) {
                         <Zap className="w-6 h-6 text-emerald-200 fill-emerald-200" />
                         <span className="text-xs font-black uppercase tracking-[0.3em] text-emerald-100">Tree Job Capture System</span>
                       </div>
-                      <h3 className="text-4xl font-black mb-6 leading-tight">Capture More Tree Jobs Without Answering Every Call</h3>
+                      <h3 className="text-4xl font-black mb-6 leading-tight">15-25 Qualified Tree Jobs Per Month — Without Chasing a Single Lead</h3>
                       
                       <div className="space-y-4 text-emerald-50 text-lg mb-8">
-                        <p>Tree service owners are rarely sitting behind a desk. You're usually climbing trees, running equipment, managing your crew, or driving between jobs.</p>
-                        <p className="font-bold text-white">The Tree Job Capture System helps you capture those opportunities automatically.</p>
+                        <p>You didn't start this business to sit behind a desk answering phones. But every unanswered call is a job that goes to your competitor down the street.</p>
+                        <p className="font-bold text-white">Tree companies using this system book 40% more jobs in the first 30 days — without hiring anyone new.</p>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex items-center gap-3 bg-emerald-700/40 px-4 py-3 rounded-2xl text-sm font-bold border border-emerald-500/30">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-300" /> Turn missed calls into new jobs
+                          <CheckCircle2 className="w-5 h-5 text-emerald-300" /> Missed call text-back — respond in under 60 seconds, automatically
                         </div>
                         <div className="flex items-center gap-3 bg-emerald-700/40 px-4 py-3 rounded-2xl text-sm font-bold border border-emerald-500/30">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-300" /> Less time chasing leads
+                          <CheckCircle2 className="w-5 h-5 text-emerald-300" /> Automated follow-up sequences that nurture leads while you work
                         </div>
                         <div className="flex items-center gap-3 bg-emerald-700/40 px-4 py-3 rounded-2xl text-sm font-bold border border-emerald-500/30">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-300" /> Focus on bigger jobs
+                          <CheckCircle2 className="w-5 h-5 text-emerald-300" /> Review generation to dominate 'tree removal near me' rankings
                         </div>
                         <div className="flex items-center gap-3 bg-emerald-700/40 px-4 py-3 rounded-2xl text-sm font-bold border border-emerald-500/30">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-300" /> 24/7 Automated Response
+                          <CheckCircle2 className="w-5 h-5 text-emerald-300" /> Set up in one afternoon — we build it for you, zero tech skills needed
                         </div>
                       </div>
                     </div>
@@ -696,8 +696,8 @@ export default function AdminDashboard({ companySlug }: Props) {
                                   <Phone className="w-6 h-6 text-emerald-600" />
                                 </div>
                                 <div>
-                                  <h3 className="font-bold text-stone-900 text-base leading-tight">Seeing Leads Come In Is Great… But What About The Calls You Miss?</h3>
-                                  <p className="text-stone-600 text-xs mt-1">See how tree companies capture those jobs with the <span className="text-emerald-700 font-bold">Tree Job Capture System</span>.</p>
+                                  <h3 className="font-bold text-stone-900 text-base leading-tight">This lead found you online. The 3 who called while you were on a job — didn't.</h3>
+                                  <p className="text-stone-600 text-xs mt-1">Stop losing jobs to whoever answers first. See how the <span className="text-emerald-700 font-bold">Tree Job Capture System</span>.</p>
                                 </div>
                               </div>
                               <button 
