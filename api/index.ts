@@ -197,12 +197,21 @@ async function startServer() {
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS "session" (
-        "sid" varchar NOT NULL PRIMARY KEY,
+        "sid" varchar NOT NULL COLLATE "default",
         "sess" json NOT NULL,
-        "expire" timestamp(6) NOT NULL
+        "expire" timestamp(6) NOT NULL,
+        CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
       )
     `);
     await pool.query('CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire")');
+
+    // Fix existing session table if it was created without the proper constraint
+    try {
+      await pool.query(`
+        ALTER TABLE "session" DROP CONSTRAINT IF EXISTS session_pkey;
+        ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+      `);
+    } catch (e) {}
 
     console.log("Database initialization complete.");
     dbReady = true;
