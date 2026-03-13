@@ -46,7 +46,7 @@ async function startServer() {
     }
 
     await resend.emails.send({
-      from: "TreeQuote Pro <onboarding@resend.dev>",
+      from: "TreeQuote Pro <noreply@pbtleads.website>",
       to: email,
       subject: "Your TreeQuote Pro verification code",
       text: `Your verification code is ${code}. This code expires in 10 minutes.`,
