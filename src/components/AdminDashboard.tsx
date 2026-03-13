@@ -1,7 +1,6 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  LayoutDashboard, 
   Users, 
   TrendingUp, 
   Clock, 
@@ -248,7 +247,12 @@ export default function AdminDashboard({ companySlug }: Props) {
       <nav className="bg-stone-900 text-white p-4 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <LayoutDashboard className="w-6 h-6 text-emerald-400" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-6 h-6" aria-hidden="true">
+              <rect x="14" y="22" width="4" height="8" rx="1" fill="#5a3a1a"/>
+              <polygon points="4,22 16,6 28,22" fill="#059669"/>
+              <polygon points="7,17 16,4 25,17" fill="#047857"/>
+              <polygon points="10,13 16,2 22,13" fill="#065f46"/>
+            </svg>
             <div className="flex flex-col">
               <span className="font-bold tracking-tight leading-none">TreeQuote Pro</span>
               <span className="text-[10px] text-stone-400 font-medium">powered by PBT Digital Services</span>
