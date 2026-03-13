@@ -294,7 +294,12 @@ export default function EstimatorForm({ companySlug }: Props) {
           />
         ) : (
           <div className="w-16 h-16 bg-stone-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <TreeDeciduous className="w-8 h-8 text-stone-400" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-8 h-8" aria-hidden="true">
+              <rect x="14" y="22" width="4" height="8" rx="1" fill="#5a3a1a"/>
+              <polygon points="4,22 16,6 28,22" fill="#059669"/>
+              <polygon points="7,17 16,4 25,17" fill="#047857"/>
+              <polygon points="10,13 16,2 22,13" fill="#065f46"/>
+            </svg>
           </div>
         )}
         <h1 className="text-2xl font-bold text-stone-900">{company.name}</h1>

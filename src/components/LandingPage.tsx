@@ -73,7 +73,12 @@ export default function LandingPage({ onNavigate }: Props) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-3xl">park</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-8 h-8" aria-hidden="true">
+                <rect x="14" y="22" width="4" height="8" rx="1" fill="#5a3a1a"/>
+                <polygon points="4,22 16,6 28,22" fill="#059669"/>
+                <polygon points="7,17 16,4 25,17" fill="#047857"/>
+                <polygon points="10,13 16,2 22,13" fill="#065f46"/>
+              </svg>
               <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 TreeQuote <span className="text-primary">Pro</span>
               </span>
@@ -448,7 +453,12 @@ export default function LandingPage({ onNavigate }: Props) {
       <footer className="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <div className="flex items-center justify-center gap-2 mb-8">
-            <span className="material-symbols-outlined text-primary text-2xl">park</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-6 h-6" aria-hidden="true">
+              <rect x="14" y="22" width="4" height="8" rx="1" fill="#5a3a1a"/>
+              <polygon points="4,22 16,6 28,22" fill="#059669"/>
+              <polygon points="7,17 16,4 25,17" fill="#047857"/>
+              <polygon points="10,13 16,2 22,13" fill="#065f46"/>
+            </svg>
             <span className="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">
               TreeQuote <span className="text-primary">Pro</span>
             </span>
