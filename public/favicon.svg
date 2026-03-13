@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Trunk -->
+  <rect x="14" y="22" width="4" height="8" rx="1" fill="#5a3a1a"/>
+  <!-- Bottom canopy layer -->
+  <polygon points="4,22 16,6 28,22" fill="#059669"/>
+  <!-- Middle canopy layer -->
+  <polygon points="7,17 16,4 25,17" fill="#047857"/>
+  <!-- Top canopy layer -->
+  <polygon points="10,13 16,2 22,13" fill="#065f46"/>
+</svg>
