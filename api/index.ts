@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { Resend } from "resend";
+import cors from 'cors';
 
 const PostgresStore = connectPgSimple(session);
 
@@ -30,6 +31,12 @@ async function startServer() {
   const isProduction = process.env.NODE_ENV === 'production';
   const app = express();
   app.set('trust proxy', 1);
+
+  app.use(cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    credentials: true,
+  }));
+
   const PORT = 3000;
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -338,13 +345,23 @@ async function startServer() {
       await client.query('COMMIT');
       committed = true;
 
-      await sendVerificationEmail(email, verificationCode);
-
       req.session.userId = userId;
       req.session.companyId = companyId;
       req.session.role = 'owner';
 
-      res.json({ success: true, slug });
+      try {
+        await sendVerificationEmail(email, verificationCode);
+      } catch (emailErr) {
+        console.error("Verification email failed (non-fatal):", emailErr);
+      }
+
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).json({ error: "Session error after registration" });
+        }
+        res.json({ success: true, slug });
+      });
     } catch (err) {
       if (!committed) {
         await client.query('ROLLBACK');
