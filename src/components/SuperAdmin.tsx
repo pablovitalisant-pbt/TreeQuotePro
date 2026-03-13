@@ -112,14 +112,12 @@ export default function SuperAdmin() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 blur-[120px] -mr-48 -mt-48 pointer-events-none" />
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-8 h-8" aria-hidden="true">
-                <rect x="14" y="22" width="4" height="8" rx="1" fill="white"/>
-                <polygon points="4,22 16,6 28,22" fill="white" opacity="0.9"/>
-                <polygon points="7,17 16,4 25,17" fill="white" opacity="0.75"/>
-                <polygon points="10,13 16,2 22,13" fill="white" opacity="0.6"/>
-              </svg>
-            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-14 h-14" aria-hidden="true">
+              <rect x="14" y="22" width="4" height="8" rx="1" fill="#5a3a1a"/>
+              <polygon points="4,22 16,6 28,22" fill="#059669"/>
+              <polygon points="7,17 16,4 25,17" fill="#047857"/>
+              <polygon points="10,13 16,2 22,13" fill="#065f46"/>
+            </svg>
             <div>
               <h1 className="text-2xl font-black tracking-tight">TreeQuote Pro Master Panel</h1>
               <p className="text-stone-400 text-sm font-medium">Global Management & Tenant Controls</p>
