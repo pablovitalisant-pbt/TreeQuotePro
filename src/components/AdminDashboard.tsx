@@ -29,6 +29,22 @@ import {
   LogOut
 } from 'lucide-react';
 
+interface Company {
+  id: number;
+  name: string;
+  slug: string;
+  ads_enabled: number;
+  base_rate: number;
+  height_rate?: number;
+  diameter_rate?: number;
+  hazard_multiplier?: number;
+  webhook_url?: string;
+  logo_url?: string;
+  primary_color?: string;
+  created_at?: string;
+  banner_delay_hours: number;
+}
+
 interface Props {
   companySlug: string;
 }
@@ -36,7 +52,7 @@ interface Props {
 export default function AdminDashboard({ companySlug }: Props) {
   const [activeTab, setActiveTab] = useState<'leads' | 'settings'>('leads');
   const [leads, setLeads] = useState<any[]>([]);
-  const [company, setCompany] = useState<any>(null);
+  const [company, setCompany] = useState<Company | null>(null);
   const [loading, setLoading] = useState(true);
   
   // Settings State
@@ -132,7 +148,8 @@ export default function AdminDashboard({ companySlug }: Props) {
       const diffInMs = now.getTime() - registrationDate.getTime();
       const diffInHours = diffInMs / (1000 * 60 * 60);
       
-      if (diffInHours >= 24) {
+      const delay = company.banner_delay_hours ?? 24;
+      if (diffInHours >= delay) {
         const timer = setTimeout(() => setShowBanners(true), 2000);
         return () => clearTimeout(timer);
       } else {

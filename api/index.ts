@@ -187,6 +187,10 @@ async function startServer() {
       ADD COLUMN IF NOT EXISTS verification_code TEXT
     `);
     await pool.query(`
+      ALTER TABLE companies 
+      ADD COLUMN IF NOT EXISTS banner_delay_hours INTEGER DEFAULT 24
+    `);
+    await pool.query(`
       ALTER TABLE users
       ADD COLUMN IF NOT EXISTS verification_expires TIMESTAMP
     `);
@@ -723,6 +727,20 @@ async function startServer() {
     try {
       const { ads_enabled } = req.body;
       await pool.query("UPDATE companies SET ads_enabled = $1 WHERE id = $2", [ads_enabled ? 1 : 0, req.params.id]);
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ error: "Database error" });
+    }
+  });
+
+  app.patch("/api/super/companies/:id/banner-delay", requireMaster, async (req, res) => {
+    if (!pool) return res.status(500).json({ error: "Database unavailable" });
+    try {
+      const { banner_delay_hours } = req.body;
+      await pool.query(
+        "UPDATE companies SET banner_delay_hours = $1 WHERE id = $2",
+        [banner_delay_hours, req.params.id]
+      );
       res.json({ success: true });
     } catch (err) {
       res.status(500).json({ error: "Database error" });

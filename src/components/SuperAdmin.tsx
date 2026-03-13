@@ -10,7 +10,8 @@ import {
   AlertCircle,
   ArrowRight,
   Layout,
-  LogOut
+  LogOut,
+  Clock
 } from 'lucide-react';
 
 interface Company {
@@ -20,6 +21,7 @@ interface Company {
   ads_enabled: number;
   base_rate: number;
   logo_url?: string;
+  banner_delay_hours: number;
 }
 
 export default function SuperAdmin() {
@@ -64,6 +66,26 @@ export default function SuperAdmin() {
       }
     } catch (err) {
       console.error("Failed to toggle ads:", err);
+    }
+  };
+
+  const updateBannerDelay = async (companyId: number, hours: number) => {
+    try {
+      const res = await fetch(`/api/super/companies/${companyId}/banner-delay`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ banner_delay_hours: hours })
+      });
+      if (res.ok) {
+        setCompanies(companies.map(c => 
+          c.id === companyId ? { ...c, banner_delay_hours: hours } : c
+        ));
+        setShowSuccess(`Banner delay updated to ${hours}h`);
+        setTimeout(() => setShowSuccess(null), 3000);
+      }
+    } catch (err) {
+      console.error("Failed to update banner delay:", err);
     }
   };
 
@@ -199,6 +221,27 @@ export default function SuperAdmin() {
                         className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${company.ads_enabled ? 'translate-x-6' : 'translate-x-1'}`}
                       />
                     </button>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-100">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
+                        <Clock className="w-4 h-4" />
+                      </div>
+                      <span className="text-sm font-bold text-stone-700">Banner Delay</span>
+                    </div>
+                    <select
+                      value={company.banner_delay_hours}
+                      onChange={(e) => updateBannerDelay(company.id, Number(e.target.value))}
+                      className="text-sm font-bold text-stone-700 bg-white border border-stone-200 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    >
+                      <option value={0}>Immediate</option>
+                      <option value={1}>1 hour</option>
+                      <option value={6}>6 hours</option>
+                      <option value={24}>24 hours</option>
+                      <option value={48}>48 hours</option>
+                      <option value={72}>72 hours</option>
+                    </select>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
