@@ -1,7 +1,5 @@
 import 'dotenv/config';
 import express from "express";
-import path from "path";
-import fs from "fs";
 import { Pool } from "pg";
 import multer from "multer";
 import bcrypt from "bcryptjs";
@@ -9,6 +7,7 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { Resend } from "resend";
 import cors from 'cors';
+import { v2 as cloudinary } from 'cloudinary';
 
 const PostgresStore = connectPgSimple(session);
 
@@ -37,6 +36,12 @@ async function startServer() {
     credentials: true,
   }));
 
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+
   const PORT = 3000;
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -61,31 +66,14 @@ async function startServer() {
     });
   };
 
-  // Ensure uploads directory exists
-  const uploadsDir = path.join(process.cwd(), "public", "uploads");
-  if (!fs.existsSync(uploadsDir)) {
-    try {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    } catch (e) {
-      console.warn("Could not create uploads dir (read-only fs, expected in production):", e);
-    }
-  }
-
-  // 1. Body parsing and static files — always first, no dependencies
+  // 1. Body parsing — always first, no dependencies
   app.use(express.json());
-  app.use("/uploads", express.static(path.join(process.cwd(), "public", "uploads")));
 
-  // Configure Multer
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, uploadsDir);
-    },
-    filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
+  // Configure Multer for Memory Storage
+  const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 }
   });
-  const upload = multer({ storage });
 
   // 2. DB init
   let pool: Pool | undefined;
@@ -561,13 +549,28 @@ async function startServer() {
     }
   });
 
-  app.post("/api/upload", upload.array("images", 5), (req, res) => {
+  app.post("/api/upload", upload.array("images", 5), async (req, res) => {
     try {
       const files = req.files as Express.Multer.File[];
       if (!files || files.length === 0) return res.status(400).json({ error: "No files uploaded" });
-      const fileUrls = files.map(file => `/uploads/${file.filename}`);
-      res.json({ urls: fileUrls });
+
+      const uploadPromises = files.map(file => {
+        return new Promise<string>((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "treequote-pro", resource_type: "image" },
+            (error, result) => {
+              if (error || !result) return reject(error);
+              resolve(result.secure_url);
+            }
+          );
+          stream.end(file.buffer);
+        });
+      });
+
+      const urls = await Promise.all(uploadPromises);
+      res.json({ urls });
     } catch (err) {
+      console.error("Upload error:", err);
       res.status(500).json({ error: "Upload failed" });
     }
   });
