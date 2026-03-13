@@ -98,7 +98,7 @@ export default function App() {
   }
 
   if (isLogin) {
-    if (user) {
+    if (user && user.slug) {
       navigate(`/admin/${user.slug}`);
       return null;
     }
