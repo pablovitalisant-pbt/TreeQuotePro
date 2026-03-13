@@ -600,8 +600,9 @@ async function startServer() {
         company_id, name, email, phone, address,
         tree_species, tree_height, tree_diameter,
         proximity_hazard, condition, accessibility,
-        estimated_min, estimated_max, images
+        estimated_min, estimated_max
       } = req.body;
+      const images = req.body.images || null;
 
       const result = await pool.query(`
         INSERT INTO leads (
@@ -646,7 +647,8 @@ async function startServer() {
 
       res.json({ id: leadId });
     } catch (err) {
-      res.status(500).json({ error: "Database error" });
+      console.error("POST /api/leads error:", err);
+      res.status(500).json({ error: err instanceof Error ? err.message : "Database error" });
     }
   });
 
